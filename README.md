@@ -505,6 +505,7 @@ MIT
 #### Author Information
 
 Mischa ter Smitten (based on work of [FloeDesignTechnologies](https://github.com/FloeDesignTechnologies))
+
 Michael Weinrich (based on [Oefenweb/ansible-haproxy](https://github.com/Oefenweb/ansible-haproxy))
 
 #### Bug-reports, requests, ...
