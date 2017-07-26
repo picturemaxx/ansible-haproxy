@@ -19,6 +19,11 @@ frontend {{ frontend.name }}
   maxconn {{ frontend.maxconn }}
 {% endif %}
 
+{% for stick in frontend.stick | default([]) %}
+  stick-table {{ stick.table }}
+  stick on {{ stick.stick_on }}
+{% endfor %}
+
 {% for option in frontend.option | default([]) %}
   option {{ option }}
 {% endfor %}
@@ -29,6 +34,10 @@ frontend {{ frontend.name }}
 
 {% for timeout in frontend.timeout | default([]) %}
   timeout {{ timeout.type }} {{ timeout.timeout }}
+{% endfor %}
+
+{% for acl in frontend.acl | default([]) %}
+  acl {{ acl.string }}
 {% endfor %}
 
 {% for capture in frontend.capture | default([]) %}
@@ -50,10 +59,25 @@ frontend {{ frontend.name }}
 
 {% endfor %}
 
+{% for rsprep in frontend.rsprep | default([]) %}
+  rsprep {{ rsprep.string }}{% if rsprep.cond is defined %} {{ rsprep.cond }}{% endif %}
+
+{% endfor %}
+
 {% for redirect in frontend.redirect | default([]) %}
   redirect {{ redirect.string }}{% if redirect.cond is defined %} {{ redirect.cond }}{% endif %}
 
 {% endfor %}
+
+{% if frontend.use_backend is defined %}
+{% if frontend.use_backend is iterable and frontend.use_backend is not string %}
+{% for use_backend in frontend.use_backend | default([]) %}
+  use_backend {{ use_backend }}
+{% endfor %}
+{% else %}
+  use_backend {{ frontend.use_backend }}
+{% endif %}
+{% endif %}
 
   default_backend {{ frontend.default_backend }}
 
