@@ -81,6 +81,12 @@
     - haproxy
     - haproxy-configuration
 
+- name: set config permissions to readable by other users
+  file:
+    path: /etc/haproxy/haproxy.cfg
+    state: touch
+    mode: 0644
+
 - name: start and enable service
   service:
     name: haproxy
